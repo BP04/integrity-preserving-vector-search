@@ -24,3 +24,7 @@ std::vector<VerifiedResult> VerifiableVectorDB::query(const std::vector<float>& 
 
     return results;
 }
+
+std::string VerifiableVectorDB::get_root() {
+    return merkle_tree.get_root();
+}

@@ -19,6 +19,8 @@ public:
 
     std::vector<VerifiedResult> query(const std::vector<float>& q, int K);
 
+    std::string get_root();
+
 private:
     SimpleHNSW index;
     MerkleTree merkle_tree;

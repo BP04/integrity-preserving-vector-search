@@ -67,7 +67,8 @@ void MerkleTree::rebuild_tree() {
         for(size_t i = 0; i < current_nodes.size(); i += 2) {
             if(i + 1 < current_nodes.size()) {
                 next_level.push_back(hash_pair(current_nodes[i], current_nodes[i + 1]));
-            } else {
+            }
+            else {
                 next_level.push_back(hash_pair(current_nodes[i], current_nodes[i]));
             }
         }
@@ -105,7 +106,8 @@ std::vector<std::string> MerkleTree::get_proof(int leaf_index) {
 
         if(sibling_idx >= static_cast<int>(tree[level].size())) {
             proof.push_back(tree[level][current_idx]);
-        } else {
+        }
+        else {
             proof.push_back(tree[level][sibling_idx]);
         }
 

@@ -41,7 +41,7 @@ struct VisitedTable {
     }
 };
 
-template <int Dim = 0>
+template<int Dim = 0>
 class HNSW {
 public:
     explicit HNSW(int M = 16, int M0 = 0, int ef_construct = 200, int dim = 0)
@@ -145,7 +145,8 @@ private:
                 float diff = q[d] - v[d];
                 sum += diff * diff;
             }
-        } else {
+        }
+        else {
             for(int d = 0; d < dim_; ++d) {
                 float diff = q[d] - v[d];
                 sum += diff * diff;
@@ -169,4 +170,32 @@ private:
 
     void connect_neighbors(int32_t node, const std::vector<int32_t>& neighbors, int lc);
     void shrink_neighbors(int32_t u, int32_t new_nb, int lc);
+};
+
+class SimpleHNSW {
+public:
+    SimpleHNSW(int M, int ef_construct);
+
+    int insert(const std::vector<float>& q);
+    std::vector<Candidate> search(const std::vector<float>& q, int K);
+    const std::vector<float>& get_vector(int id) const;
+
+private:
+    struct Node {
+        std::vector<float> vec;
+        std::vector<std::vector<int>> neighbors;
+    };
+
+    int M;
+    int ef_construct;
+    int entry_point;
+    int max_layer;
+    std::mt19937 rng;
+    double level_mult;
+    std::vector<Node> nodes;
+
+    float distance(const std::vector<float>& a, const std::vector<float>& b) const;
+    int sample_layer();
+    int search_layer_ef1(const std::vector<float>& q, int ep, int lc);
+    MaxHeap search_layer(const std::vector<float>& q, int ep, int ef, int lc);
 };
